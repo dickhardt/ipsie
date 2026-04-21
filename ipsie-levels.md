@@ -20,11 +20,11 @@ Each level includes the previous level (_e.g._ SL3 includes the requirements of 
 
 Level SL1 enables basic single sign-on from applications to the identity provider, communicating identity statements about the user. Single sign-on in Level SL1 meets the technical requirements of [FAL2 in NIST 800-63-4](https://pages.nist.gov/800-63-4/sp800-63c/fal/). 
 
-***Note:** IPSIE does not include all of the controls specified in NIST 800-63-4 at FAL2.  IPSIE SL1 requires the technical controls from FAL2 which impact the security of the federation protocol(s).  Business agreements, such as data handling policies, are out of scope for IPSIE. 
+**FAL2 Compliance**: IPSIE SL1 requires the technical controls from FAL2 which impact the security of the federation protocol(s). IPSIE does not include all of the controls specified in NIST 800-63-4 at FAL2. Business agreements, such as data handling policies, are out of scope for IPSIE.
 
-The Application respects the session lifetime as communicated by the Identity Service in the assertion, and re-validates the session with the Identity Service after the expiration. Re-validation can occur with a new single sign-on flow, or using refresh tokens. It is likely that the session lifetime communicated by the Identity Service is shorter than the session at the Identity Service. The goal is to let the Identity Service set the interval in which the RP checks back at the Identity Service.
+**Session Lifetime**: The Identity Service can set a session lifetime in the assertion, and the Application re-validates the session with the Identity Service after the expiration. Re-validation can occur with a new single sign-on flow, or using refresh tokens. It is likely that the session lifetime communicated by the Identity Service is shorter than the session at the Identity Service. The goal is to let the Identity Service set the interval in which the RP checks back at the Identity Service. The Identity Service can request a session lifetime no shorter than 5 minutes.
 
-The Identity Service MUST communicate information about the user's authentication method at the Identity Service in the SSO assertion.
+**Authentication Method**: The Identity Service MUST communicate information about the user's authentication method at the Identity Service in the SSO assertion.
 
 ### IPSIE Session Lifecycle SL2 - MFA, Logout, & Session Termination
 
@@ -36,13 +36,27 @@ When requested by the Identity Service, Applications MUST obtain a new identity 
 
 When requested by the Identity Service, Applications MUST terminate all active sessions and any access tokens and refresh tokens they may have created for the specified user. Identity Services are not obligated to send this command, but Applications are required to support receiving it.
 
+#### Revocation Deadlines
+
+When a "re-establish session" or "terminate" command is received from the Identity Service, Applications have a deadline to take the requested action.
+
+* 1 hour if tokens/cookies are device-bound (e.g. DPoP-bound)
+* 15 minutes if tokens/cookies are not device-bound
+
+
 ### IPSIE Session Lifecycle SL3 - Continuous Access
 
-Level SL3 adds continuous access to the authentication between Identity Service and Application.
+Level SL3 adds continuous access to the authentication between Identity Service and Application, and shortens the deadlines for revocation.
 
 The Application communicates session changes to the Identity Service such as IP address change, enabling the Identity Service to be aware of more context around what is happening to users' sessions after the initial sign-in.
 
 The Identity Service communicates changes in the account and device posture to the application, enabling the application to take actions it determines are necessary based on its own policies about these changes.  Neither application nor identity services are obliged to act upon any state changes, the policies for responding to state changes are not in scope for SL3.
+
+When a "re-establish session" or "terminate" command is received from the Identity Service, Applications have a deadline to take the requested action.
+
+* 15 minutes if tokens/cookies are device-bound (e.g. DPoP-bound)
+* 5 minutes if tokens/cookies are not device-bound
+
 
 ### IPSIE Account Lifecycle Level AL1 - User Deprovisioning
 
