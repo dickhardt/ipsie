@@ -22,7 +22,7 @@ Level SL1 enables basic single sign-on from applications to the identity provide
 
 **FAL2 Compliance**: IPSIE SL1 requires the technical controls from FAL2 which impact the security of the federation protocol(s). IPSIE does not include all of the controls specified in NIST 800-63-4 at FAL2. Business agreements, such as data handling policies, are out of scope for IPSIE.
 
-**Session Lifetime**: The Identity Service can set a session lifetime in the assertion, and the Application re-validates the session with the Identity Service after the expiration. Re-validation can occur with a new single sign-on flow, or using refresh tokens. It is likely that the session lifetime communicated by the Identity Service is shorter than the session at the Identity Service. The goal is to let the Identity Service set the interval in which the RP checks back at the Identity Service. The Identity Service can request a session lifetime no shorter than 5 minutes.
+**Session Lifetime**: The Identity Service can set a session lifetime in the assertion, and the Application re-validates the session with the Identity Service after the expiration. Re-validation can occur with a new single sign-on flow, or using refresh tokens. It is likely that the session lifetime communicated by the Identity Service is shorter than the session at the Identity Service. The goal is to let the Identity Service set the interval in which the RP checks back at the Identity Service. When a session lifetime is requested by the Identity Service, the minimum value is 5 minutes.
 
 **Authentication Method**: The Identity Service MUST communicate information about the user's authentication method at the Identity Service in the SSO assertion.
 
